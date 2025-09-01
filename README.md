@@ -4,6 +4,8 @@ An Electron application with Svelte and TypeScript
 
 ## I learned Svelte over the weekend and built this quick and dirty little json file editor.
 
+<img width="901" height="635" alt="image" src="https://github.com/user-attachments/assets/569c9823-2dfc-4c8a-8439-ba1a5d358c87" />
+
 You select the directory where your json files are located, and it will display the list of json files as buttons.
 Clicking on a button will open the corresponding json file in the editor.
 
@@ -16,14 +18,7 @@ Then you can click Save to save the changes back to the json file, click on a di
 ## It's a work in progress
 
 - [ ] Improve the UI/UX - I just took the template's style and ran with it.
-- [ ] Add support for numbers.
 - [ ] Add any tests
-
-## Recommended IDE Setup
-
-- [VSCode](https://code.visualstudio.com/) + [ESLint](https://marketplace.visualstudio.com/items?itemName=dbaeumer.vscode-eslint) + [Prettier](https://marketplace.visualstudio.com/items?itemName=esbenp.prettier-vscode) + [Svelte](https://marketplace.visualstudio.com/items?itemName=svelte.svelte-vscode)
-
-## Project Setup
 
 ### Install
 

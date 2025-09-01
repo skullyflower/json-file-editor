@@ -53,7 +53,7 @@
           </div>
         {:else}
           {#each Object.entries(value) as [innerkey, innervalue], i (`${key}-${innerkey}-${i}`)}
-            <div>
+            <div class="flexcol">
               {#if editableValues.includes(typeof innervalue)}
                 <div>
                   <p class="keyLabel">{innerkey}:</p>
@@ -67,7 +67,7 @@
               {:else}
                 <p class="keyLabel">{innerkey}</p>
                 {#each Object.entries(innervalue) as [ininnerkey, ininnerval], i (`${key}-${innerkey}-${ininnerval}-${i}`)}
-                  <div>
+                  <div class="flexcol">
                     <p class="keyLabel">{ininnerkey}:</p>
                     <AdjustableInput
                       inputtext={ininnerval}

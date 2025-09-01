@@ -2,8 +2,12 @@
   let { inputtext, updatetext } = $props()
 </script>
 
-{#if inputtext.length < 40}
-  <input type="text" value={inputtext} onchange={updatetext} />
+{#if inputtext.length < 40 || typeof inputtext === 'number'}
+  <input
+    type={typeof inputtext === 'number' ? 'number' : 'string'}
+    value={inputtext}
+    onchange={updatetext}
+  />
 {:else}
   <textarea onchange={updatetext}>{inputtext}</textarea>
 {/if}

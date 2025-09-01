@@ -4,6 +4,7 @@
   let pageListPromise = $derived(selectedDir ? window.api.getJsonList(selectedDir) : null)
   let filename = $state('')
   let jsonObject: object | null = $state(null)
+  let editableValues: string[] = ['string', 'number']
 </script>
 
 <div class="text">
@@ -41,7 +42,7 @@
     {#each Object.entries(jsonObject) as [key, value], i (`${key}-${i}`)}
       <div class="flexcol">
         <p class="keyLabel">{key}</p>
-        {#if typeof value === 'string'}
+        {#if editableValues.includes(typeof value)}
           <div>
             <AdjustableInput
               inputtext={value}
@@ -53,7 +54,7 @@
         {:else}
           {#each Object.entries(value) as [innerkey, innervalue], i (`${key}-${innerkey}-${i}`)}
             <div>
-              {#if typeof innervalue === 'string'}
+              {#if editableValues.includes(typeof innervalue)}
                 <div>
                   <p class="keyLabel">{innerkey}:</p>
                   <AdjustableInput
@@ -122,6 +123,7 @@
     gap: 10px;
   }
   .flexcol {
+    margin: 10px;
     padding: 15px;
     border: 1px solid;
     border-radius: 15px;

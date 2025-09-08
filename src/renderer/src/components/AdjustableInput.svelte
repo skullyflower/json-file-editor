@@ -9,7 +9,7 @@
     onchange={updatetext}
   />
 {:else}
-  <textarea onchange={updatetext} rows={Math.round(inputtext.length / 90)}>{inputtext}</textarea>
+  <textarea onchange={updatetext} rows={Math.round(inputtext.length / 70)}>{inputtext}</textarea>
 {/if}
 
 <style>

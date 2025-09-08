@@ -41,40 +41,47 @@
   {#if jsonObject !== null}
     {#each Object.entries(jsonObject) as [key, value], i (`${key}-${i}`)}
       <div class="flexcol">
-        <p class="keyLabel">{key}</p>
+        <div class="keyLabel">{key}</div>
         {#if editableValues.includes(typeof value)}
-          <div>
-            <AdjustableInput
-              inputtext={value}
-              updatetext={(event) => {
-                value[key] = event.target.value
-              }}
-            />
+          <div class="flexrow">
+            <div class="keyLabel">{key}</div>
+            <div class="grow">
+              <AdjustableInput
+                inputtext={value}
+                updatetext={(event) => {
+                  value[key] = event.target.value
+                }}
+              />
+            </div>
           </div>
         {:else}
           {#each Object.entries(value) as [innerkey, innervalue], i (`${key}-${innerkey}-${i}`)}
             <div class="flexcol">
               {#if editableValues.includes(typeof innervalue)}
-                <div>
-                  <p class="keyLabel">{innerkey}:</p>
-                  <AdjustableInput
-                    inputtext={innervalue}
-                    updatetext={(event) => {
-                      value[innerkey] = event.target.value
-                    }}
-                  />
+                <div class="flexrow">
+                  <div class="keyLabel">{innerkey}:</div>
+                  <div class="grow">
+                    <AdjustableInput
+                      inputtext={innervalue}
+                      updatetext={(event) => {
+                        value[innerkey] = event.target.value
+                      }}
+                    />
+                  </div>
                 </div>
               {:else}
                 <p class="keyLabel">{innerkey}</p>
                 {#each Object.entries(innervalue) as [ininnerkey, ininnerval], i (`${key}-${innerkey}-${ininnerval}-${i}`)}
-                  <div class="flexcol">
-                    <p class="keyLabel">{ininnerkey}:</p>
-                    <AdjustableInput
-                      inputtext={ininnerval}
-                      updatetext={(event) => {
-                        value[innerkey][ininnerkey] = event.target.value
-                      }}
-                    />
+                  <div class="flexrow">
+                    <div class="keyLabel">{ininnerkey}:</div>
+                    <div class="grow">
+                      <AdjustableInput
+                        inputtext={ininnerval}
+                        updatetext={(event) => {
+                          value[innerkey][ininnerkey] = event.target.value
+                        }}
+                      />
+                    </div>
                   </div>
                 {/each}
               {/if}
@@ -130,6 +137,16 @@
     display: flex;
     flex-direction: column;
     gap: 5px;
+  }
+  .flexrow {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    gap: 15px;
+  }
+  .grow {
+    flex-grow: 3;
+    max-width: 80%;
   }
   p.keyLabel {
     font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;

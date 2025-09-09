@@ -49,7 +49,7 @@
               <AdjustableInput
                 inputtext={value}
                 updatetext={(event) => {
-                  value[key] = event.target.value
+                  jsonObject[key] = event.target.value
                 }}
               />
             </div>
@@ -64,7 +64,7 @@
                     <AdjustableInput
                       inputtext={innervalue}
                       updatetext={(event) => {
-                        value[innerkey] = event.target.value
+                        jsonObject[key][innerkey] = event.target.value
                       }}
                     />
                   </div>
@@ -78,7 +78,7 @@
                       <AdjustableInput
                         inputtext={ininnerval}
                         updatetext={(event) => {
-                          value[innerkey][ininnerkey] = event.target.value
+                          jsonObject[key][innerkey][ininnerkey] = event.target.value
                         }}
                       />
                     </div>

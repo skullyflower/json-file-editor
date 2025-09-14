@@ -108,6 +108,11 @@ button.action  {
   background-color: var(--ev-button-alt-bg);
 }
 
+button.action:disabled{
+    background-color: var(--color-background-mute);
+    cursor:unset
+}
+
 button.action b:hover {
   border-color: var(--ev-button-alt-hover-border);
   color: var(--ev-button-alt-hover-text);

@@ -3,8 +3,10 @@
   let selectedDir = $state('')
   let pageListPromise = $derived(selectedDir ? window.api.getJsonList(selectedDir) : null)
   let filename = $state('')
+  let originalJson: string = $state('')
   let jsonObject: object | null = $state(null)
   let editableValues: string[] = ['string', 'number']
+  let saveDisabled = $derived(JSON.stringify(jsonObject) === originalJson)
 </script>
 
 <div class="text">
@@ -24,6 +26,7 @@
             window.api
               .readJson(page, selectedDir)
               .then((json) => {
+                originalJson = json
                 jsonObject = JSON.parse(json)
               })
               .catch((error) => {
@@ -104,6 +107,7 @@
   {#if jsonObject !== null}
     <button
       class="action"
+      disabled={saveDisabled}
       onclick={() => {
         filename = ''
         jsonObject = null
@@ -111,9 +115,12 @@
     >
     <button
       class="action"
+      disabled={saveDisabled}
       onclick={() => {
-        if (window.api.writeJson(JSON.stringify(jsonObject), filename, selectedDir))
+        if (window.api.writeJson(JSON.stringify(jsonObject), filename, selectedDir)) {
           alert('Success!')
+          originalJson = JSON.stringify(jsonObject)
+        }
       }}>Save Changes</button
     >
   {/if}
@@ -128,6 +135,8 @@
     max-height: 66vh;
     overflow: auto;
     gap: 10px;
+    border-top: 1px solid var(--color-text);
+    border-bottom: 1px solid var(--color-text);
   }
   .flexcol {
     margin: 10px;

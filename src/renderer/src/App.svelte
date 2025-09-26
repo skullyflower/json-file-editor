@@ -59,6 +59,11 @@
           </div>
         {:else}
           {#each Object.entries(value) as [innerkey, innervalue], i (`${key}-${innerkey}-${i}`)}
+            {#if !isNaN(Number(innerkey)) && Array.isArray(value) && i === 0}
+              <div>
+                <button onclick={() => (value[value.length] = '')}>Add One</button>
+              </div>
+            {/if}
             <div class="flexcol">
               {#if editableValues.includes(typeof innervalue)}
                 <div class="flexrow">
@@ -75,6 +80,11 @@
               {:else}
                 <p class="keyLabel">{innerkey}</p>
                 {#each Object.entries(innervalue) as [ininnerkey, ininnerval], i (`${key}-${innerkey}-${ininnerval}-${i}`)}
+                  {#if !isNaN(Number(ininnerkey)) && Array.isArray(innervalue) && i === 0}
+                    <div>
+                      <button onclick={() => (innervalue[innervalue.length] = '')}>Add One</button>
+                    </div>
+                  {/if}
                   <div class="flexrow">
                     <div class="keyLabel">{ininnerkey}:</div>
                     <div class="grow">
@@ -109,8 +119,7 @@
       class="action"
       disabled={saveDisabled}
       onclick={() => {
-        filename = ''
-        jsonObject = null
+        jsonObject = JSON.parse(originalJson)
       }}>Reset</button
     >
     <button

@@ -10,7 +10,7 @@ You select a json file or a directory where your json files are located.
 
 When the file is opened, it iterates through the keys searching for keys, and nested keys with string values to display as inputs for the form. I think it goes 3 levels deep.
 
-The form does spell checking. You can add and delete values for Arrays. 
+The form does spell checking. You can add and delete values for Arrays.
 
 Then you can click Save to save the changes back to the json file, click on a different file to edit, select a different directory and list of files, or Reset to start over.
 
@@ -22,12 +22,6 @@ Then you can click Save to save the changes back to the json file, click on a di
 
 ```bash
 $ npm install
-```
-
-### Development
-
-```bash
-$ npm run dev
 ```
 
 ### Build

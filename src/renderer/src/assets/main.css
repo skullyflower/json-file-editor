@@ -94,6 +94,7 @@ button{
   background-color: var(--ev-button-alt-bg);
   line-height: 28px;
   padding:0 15px;
+  margin:4px;
 }
 button.action  {
   padding: 0 20px;

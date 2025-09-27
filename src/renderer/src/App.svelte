@@ -181,7 +181,7 @@
     flex-direction: column;
     align-items: stretch;
     max-width: 100%;
-    max-height: 66vh;
+    max-height: 72vh;
     overflow: auto;
     gap: 10px;
     border-top: 1px solid var(--color-text);

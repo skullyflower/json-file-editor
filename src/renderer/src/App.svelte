@@ -76,6 +76,18 @@
                       }}
                     />
                   </div>
+                  {#if !isNaN(Number(innerkey)) && Array.isArray(value)}
+                    <div>
+                      <button
+                        onclick={() =>
+                          (jsonObject = {
+                            ...jsonObject,
+                            [key]: value.filter((_item, i) => i !== Number(innerkey))
+                          })}
+                      >
+                        [X]
+                      </button>
+                    </div>{/if}
                 </div>
               {:else}
                 <p class="keyLabel">{innerkey}</p>
@@ -95,6 +107,20 @@
                         }}
                       />
                     </div>
+                    {#if !isNaN(Number(ininnerkey)) && Array.isArray(innervalue)}
+                      <div>
+                        <button
+                          onclick={() => {
+                            const filtered = innervalue.filter(
+                              (_item, i) => i !== Number(ininnerkey)
+                            )
+                            jsonObject[key] = filtered
+                          }}
+                        >
+                          [X]
+                        </button>
+                      </div>
+                    {/if}
                   </div>
                 {/each}
               {/if}

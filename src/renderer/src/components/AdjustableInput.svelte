@@ -2,7 +2,9 @@
   let { inputtext, updatetext } = $props()
 </script>
 
-{#if inputtext.length < 40 || typeof inputtext === 'number'}
+{#if typeof inputtext === 'boolean'}
+  <input type="checkbox" checked={inputtext} onchange={updatetext} />
+{:else if inputtext.length < 40 || typeof inputtext === 'number'}
   <input
     type={typeof inputtext === 'number' ? 'number' : 'string'}
     value={inputtext}

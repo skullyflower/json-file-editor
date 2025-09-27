@@ -17,7 +17,7 @@
         alert(error)
       })
   }
-  let editableValues: string[] = ['string', 'number']
+  let editableValues: string[] = ['string', 'number', 'boolean']
   let saveDisabled = $derived(JSON.stringify(jsonObject) === originalJson)
 </script>
 
@@ -50,7 +50,9 @@
               <AdjustableInput
                 inputtext={value}
                 updatetext={(event) => {
-                  jsonObject[key] = event.target.value
+                  typeof value === 'boolean'
+                    ? (jsonObject[key] = event.target.checked)
+                    : (jsonObject[key] = event.target.value)
                 }}
               />
             </div>

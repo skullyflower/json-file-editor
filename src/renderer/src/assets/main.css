@@ -44,13 +44,18 @@ code {
   margin-bottom: 10px;
 }
 
-.text {
-  font-size: 28px;
+.heading-text {
+  font-size: 32px;
   color: var(--ev-c-text-1);
   font-weight: 700;
-  line-height: 32px;
+  line-height: 36px;
   text-align: center;
   margin: 0 10px;
+  background: -webkit-linear-gradient(315deg, #00c8ff 10%, #ffd92f);
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  text-shadow: #202127 5px 5px 5px;
 }
 
 .tip {
@@ -58,22 +63,6 @@ code {
   line-height: 24px;
   color: var(--ev-c-text-2);
   font-weight: 600;
-}
-
-.svelte {
-  background: -webkit-linear-gradient(315deg, #ff3e00 35%, #647eff);
-  background-clip: text;
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  font-weight: 700;
-}
-
-.ts {
-  background: -webkit-linear-gradient(315deg, #3178c6 45%, #f0dc4e);
-  background-clip: text;
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  font-weight: 700;
 }
 
 .actions {
@@ -90,8 +79,7 @@ code {
   flex-shrink: 0;
   padding: 6px;
 }
-
-button.action  {
+button{
   cursor: pointer;
   text-decoration: none;
   display: inline-block;
@@ -100,20 +88,24 @@ button.action  {
   font-weight: 600;
   white-space: nowrap;
   border-radius: 20px;
-  padding: 0 20px;
-  line-height: 38px;
   font-size: 14px;
   border-color: var(--ev-button-alt-border);
   color: var(--ev-button-alt-text);
   background-color: var(--ev-button-alt-bg);
+  line-height: 28px;
+  padding:0 15px;
+}
+button.action  {
+  padding: 0 20px;
+  line-height: 38px;
 }
 
-button.action:disabled{
+button:disabled{
     background-color: var(--color-background-mute);
     cursor:unset
 }
 
-button.action b:hover {
+button:not(:disabled):hover, button.action b:hover {
   border-color: var(--ev-button-alt-hover-border);
   color: var(--ev-button-alt-hover-text);
   background-color: var(--ev-button-alt-hover-bg);

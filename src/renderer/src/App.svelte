@@ -5,33 +5,31 @@
   let filename = $state('')
   let originalJson: string = $state('')
   let jsonObject: object | null = $state(null)
+  const getFileContent = (page, selectedDir): void => {
+    filename = page
+    window.api
+      .readJson(page, selectedDir)
+      .then((json) => {
+        originalJson = json
+        jsonObject = JSON.parse(json)
+      })
+      .catch((error) => {
+        alert(error)
+      })
+  }
   let editableValues: string[] = ['string', 'number']
   let saveDisabled = $derived(JSON.stringify(jsonObject) === originalJson)
 </script>
 
-<div class="text">
-  JSON editor written in
-  <span class="svelte">Svelte</span>
-  and
-  <span class="ts">TypeScript</span>
-</div>
+<div class="heading-text">JSON Editor</div>
 <div class="actions">
   {#if selectedDir}
     {#await pageListPromise then pageList}
       {#each pageList as page (page)}
         <button
-          class="action"
           onclick={() => {
             filename = page
-            window.api
-              .readJson(page, selectedDir)
-              .then((json) => {
-                originalJson = json
-                jsonObject = JSON.parse(json)
-              })
-              .catch((error) => {
-                alert(error)
-              })
+            getFileContent(page, selectedDir)
           }}
         >
           {page}
@@ -42,12 +40,12 @@
 </div>
 <div class="scrolling">
   {#if jsonObject !== null}
+    <button onclick={() => (jsonObject = filename = null)}>Close</button>
     {#each Object.entries(jsonObject) as [key, value], i (`${key}-${i}`)}
       <div class="flexcol">
-        <div class="keyLabel">{key}</div>
         {#if editableValues.includes(typeof value)}
           <div class="flexrow">
-            <div class="keyLabel">{key}</div>
+            <div class="keyLabel">{key}:</div>
             <div class="grow">
               <AdjustableInput
                 inputtext={value}
@@ -58,13 +56,16 @@
             </div>
           </div>
         {:else}
-          {#each Object.entries(value) as [innerkey, innervalue], i (`${key}-${innerkey}-${i}`)}
-            {#if !isNaN(Number(innerkey)) && Array.isArray(value) && i === 0}
-              <div>
-                <button onclick={() => (value[value.length] = '')}>Add One</button>
-              </div>
-            {/if}
-            <div class="flexcol">
+          <div class="flexcol">
+            {#each Object.entries(value) as [innerkey, innervalue], i (`${key}-${innerkey}-${i}`)}
+              {#if i === 0}
+                <div class="flexrow">
+                  <div class="keyLabel">{key}:</div>
+                  {#if !isNaN(Number(innerkey)) && Array.isArray(value)}
+                    <button onclick={() => (value[value.length] = '')}>Add One</button>
+                  {/if}
+                </div>
+              {/if}
               {#if editableValues.includes(typeof innervalue)}
                 <div class="flexrow">
                   <div class="keyLabel">{innerkey}:</div>
@@ -85,47 +86,53 @@
                             [key]: value.filter((_item, i) => i !== Number(innerkey))
                           })}
                       >
-                        [X]
+                        X
                       </button>
                     </div>{/if}
                 </div>
               {:else}
-                <p class="keyLabel">{innerkey}</p>
-                {#each Object.entries(innervalue) as [ininnerkey, ininnerval], i (`${key}-${innerkey}-${ininnerval}-${i}`)}
-                  {#if !isNaN(Number(ininnerkey)) && Array.isArray(innervalue) && i === 0}
-                    <div>
-                      <button onclick={() => (innervalue[innervalue.length] = '')}>Add One</button>
-                    </div>
-                  {/if}
-                  <div class="flexrow">
-                    <div class="keyLabel">{ininnerkey}:</div>
-                    <div class="grow">
-                      <AdjustableInput
-                        inputtext={ininnerval}
-                        updatetext={(event) => {
-                          jsonObject[key][innerkey][ininnerkey] = event.target.value
-                        }}
-                      />
-                    </div>
-                    {#if !isNaN(Number(ininnerkey)) && Array.isArray(innervalue)}
-                      <div>
-                        <button
-                          onclick={() => {
-                            const filtered = innervalue.filter(
-                              (_item, i) => i !== Number(ininnerkey)
-                            )
-                            jsonObject[key] = filtered
-                          }}
-                        >
-                          [X]
-                        </button>
+                <div class="flexcol">
+                  {#each Object.entries(innervalue) as [ininnerkey, ininnerval], i (`${key}-${innerkey}-${ininnerval}-${i}`)}
+                    {#if i === 0}
+                      <div class="flexrow">
+                        <div class="keyLabel">{innerkey}:</div>
+                        {#if !isNaN(Number(ininnerkey)) && Array.isArray(innervalue) && i === 0}
+                          <button onclick={() => (innervalue[innervalue.length] = '')}
+                            >Add One</button
+                          >
+                        {/if}
                       </div>
                     {/if}
-                  </div>
-                {/each}
+                    <div class="flexrow">
+                      <div class="keyLabel">{ininnerkey}:</div>
+                      <div class="grow">
+                        <AdjustableInput
+                          inputtext={ininnerval}
+                          updatetext={(event) => {
+                            jsonObject[key][innerkey][ininnerkey] = event.target.value
+                          }}
+                        />
+                      </div>
+                      {#if !isNaN(Number(ininnerkey)) && Array.isArray(innervalue)}
+                        <div>
+                          <button
+                            onclick={() => {
+                              const filtered = innervalue.filter(
+                                (_item, i) => i !== Number(ininnerkey)
+                              )
+                              jsonObject[key] = filtered
+                            }}
+                          >
+                            X
+                          </button>
+                        </div>
+                      {/if}
+                    </div>
+                  {/each}
+                </div>
               {/if}
-            </div>
-          {/each}
+            {/each}
+          </div>
         {/if}
       </div>
     {/each}
@@ -136,9 +143,16 @@
     class="action"
     onclick={() => {
       window.api.selectDir().then((dir) => {
-        selectedDir = dir[0]
+        const selected = dir[0]
+        if (selected.endsWith('.json')) {
+          selectedDir = selected.substring(0, selected.lastIndexOf('/'))
+          filename = selected.replace(`${selectedDir}/`, '').replace('.json', '')
+          getFileContent(filename, selectedDir)
+        } else {
+          selectedDir = selected
+        }
       })
-    }}>Select the JSON Directory</button
+    }}>Select JSON</button
   >
   {#if jsonObject !== null}
     <button
@@ -174,13 +188,13 @@
     border-bottom: 1px solid var(--color-text);
   }
   .flexcol {
-    margin: 10px;
+    margin-inline: 10px;
     padding: 15px;
     border: 1px solid;
     border-radius: 15px;
     display: flex;
     flex-direction: column;
-    gap: 5px;
+    gap: 8px;
   }
   .flexrow {
     display: flex;
@@ -192,10 +206,10 @@
     flex-grow: 3;
     max-width: 80%;
   }
-  p.keyLabel {
+  .keyLabel {
     font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
-    min-width: 30%;
-    font-size: 1.2em;
+    min-width: 15%;
+    font-size: 1em;
     font-weight: 600;
   }
 </style>

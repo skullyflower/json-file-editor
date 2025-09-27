@@ -103,7 +103,9 @@ ipcMain.handle('get-file-list', (_event, dirName): string[] => {
 })
 
 ipcMain.handle('select-json-directory', (): string[] | undefined => {
-  return dialog.showOpenDialogSync({
-    properties: ['openDirectory']
+  const dirOrFiles = dialog.showOpenDialogSync({
+    filters: [{ name: 'JSON Files', extensions: ['json'] }],
+    properties: ['openFile', 'openDirectory']
   })
+  return dirOrFiles
 })

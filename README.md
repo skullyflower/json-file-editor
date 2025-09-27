@@ -4,20 +4,18 @@ An Electron application with Svelte and TypeScript
 
 ## I learned Svelte over the weekend and built this quick and dirty little json file editor.
 
-<img width="952" height="727" alt="image" src="https://github.com/user-attachments/assets/9a25979a-4c82-4a79-aeea-39af580bcb2f" />
+<img width="952" height="729" alt="image" src="https://github.com/user-attachments/assets/83424b2d-accf-4887-a1e2-1da1ae28ee9a" />
 
-You select the directory where your json files are located, and it will display the list of json files as buttons.
-Clicking on a button will open the corresponding json file in the editor.
+You select a json file or a directory where your json files are located.
 
 When the file is opened, it iterates through the keys searching for keys, and nested keys with string values to display as inputs for the form. I think it goes 3 levels deep.
 
-The form does spell checking. Right click the misspelled word to see suggestions, clicking the suggestion will replace the misspelled word with the selected suggestion.
+The form does spell checking. You can add and delete values for Arrays. 
 
 Then you can click Save to save the changes back to the json file, click on a different file to edit, select a different directory and list of files, or Reset to start over.
 
 ## It's a work in progress
 
-- [ ] Improve the UI/UX - I just took the template's style and ran with it.
 - [ ] Add any tests
 
 ### Install

@@ -51,11 +51,11 @@ code {
   line-height: 36px;
   text-align: center;
   margin: 0 10px;
-  background: -webkit-linear-gradient(315deg, #00c8ff 10%, #ffd92f);
+  background: -webkit-linear-gradient(315deg, #0091ff 10%, #ffd92f);
   background-clip: text;
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
-  text-shadow: #202127 5px 5px 5px;
+  text-shadow: #202127 2px 2px 5px;
 }
 
 .tip {

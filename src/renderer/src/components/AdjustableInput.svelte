@@ -2,19 +2,24 @@
   let { inputtext, updatetext } = $props()
 </script>
 
-{#if typeof inputtext === 'boolean'}
-  <input type="checkbox" checked={inputtext} onchange={updatetext} />
-{:else if inputtext.length < 40 || typeof inputtext === 'number'}
-  <input
-    type={typeof inputtext === 'number' ? 'number' : 'string'}
-    value={inputtext}
-    onchange={updatetext}
-  />
-{:else}
-  <textarea onchange={updatetext} rows={Math.round(inputtext.length / 70)}>{inputtext}</textarea>
-{/if}
+<div>
+  {#if typeof inputtext === 'boolean'}
+    <input type="checkbox" checked={inputtext} onchange={updatetext} />
+  {:else if inputtext.length < 40 || typeof inputtext === 'number'}
+    <input
+      type={typeof inputtext === 'number' ? 'number' : 'string'}
+      value={inputtext}
+      onchange={updatetext}
+    />
+  {:else}
+    <textarea onchange={updatetext} rows={Math.round(inputtext.length / 70)}>{inputtext}</textarea>
+  {/if}
+</div>
 
 <style>
+  div {
+    text-align: left;
+  }
   input,
   textarea {
     border-style: solid;
@@ -24,7 +29,25 @@
     padding: 3px 10px;
     border-radius: 10px;
     width: 100%;
+    border-color: var(--ev-c-gray-1);
     background-color: var(--ev-c-gray-3);
     color: var(--ev-c-white-mute);
+  }
+  input[type='checkbox'] {
+    text-align: center;
+    padding: 0%;
+    appearance: initial;
+    background-color: var(--ev-c-gray-3);
+    border-color: var(--ev-c-gray-1);
+    border-width: 2px;
+    width: 28px;
+    height: 28px;
+  }
+  input[type='checkbox']::before {
+    content: '\0020';
+  }
+
+  input[type='checkbox']:checked::before {
+    content: '\25C9';
   }
 </style>

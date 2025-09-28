@@ -1,5 +1,5 @@
 appId: com.electron.app
-productName: json-file-editor
+productName: JSON File Editor
 directories:
   buildResources: build
 files:
@@ -34,7 +34,7 @@ linux:
     - AppImage
     - snap
     - deb
-  maintainer: electronjs.org
+  maintainer: skullyflower.com
   category: Utility
 appImage:
   artifactName: ${name}-${version}.${ext}

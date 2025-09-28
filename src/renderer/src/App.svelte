@@ -38,9 +38,10 @@
     {/await}
   {/if}
 </div>
-<div class="scrolling">
-  {#if jsonObject !== null}
-    <div>
+<details class="scrolling" open={jsonObject !== null}>
+  <summary></summary>
+  <div>
+    {#if jsonObject !== null}
       {#each Object.entries(jsonObject) as [key, value], i (`${key}-${i}`)}
         <div class="flexcol">
           {#if editableValues.includes(typeof value)}
@@ -136,9 +137,10 @@
           {/if}
         </div>
       {/each}
-    </div>
-  {/if}
-</div>
+    {:else}<div class="placeholder"></div>
+    {/if}
+  </div>
+</details>
 <div class="actions">
   <button
     class="action"
@@ -179,7 +181,6 @@
 
 <style>
   .scrolling {
-    transition: all ease-in 1s;
     max-width: 100%;
     max-height: 72vh;
     overflow: auto;
@@ -192,6 +193,25 @@
       gap: 10px;
       margin-block: 3px;
     }
+  }
+  details div {
+    transition: height ease-out var(--transition-duration);
+  }
+  summary {
+    display: none;
+  }
+  ::details-content {
+    transition:
+      height ease-in var(--transition-duration),
+      content-visibility var(--transition-duration) ease-out allow-discrete;
+    height: 0;
+    overflow: clip;
+  }
+  [open]::details-content {
+    height: auto;
+  }
+  .placeholder {
+    height: 1000px;
   }
   .flexcol {
     margin-inline: 10px;

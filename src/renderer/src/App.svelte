@@ -21,7 +21,7 @@
   let saveDisabled = $derived(JSON.stringify(jsonObject) === originalJson)
 </script>
 
-<div class="heading-text">JSON Editor</div>
+<div class="heading-text">JSON File Editor</div>
 <div class="actions">
   {#if selectedDir}
     {#await pageListPromise then pageList}
@@ -49,10 +49,8 @@
               <div class="grow">
                 <AdjustableInput
                   inputtext={value}
-                  updatetext={(event) => {
-                    typeof value === 'boolean'
-                      ? (jsonObject[key] = event.target.checked)
-                      : (jsonObject[key] = event.target.value)
+                  updatetext={(newValue: boolean | string | number) => {
+                    jsonObject[key] = newValue
                   }}
                 />
               </div>
@@ -74,8 +72,8 @@
                     <div class="grow">
                       <AdjustableInput
                         inputtext={innervalue}
-                        updatetext={(event) => {
-                          jsonObject[key][innerkey] = event.target.value
+                        updatetext={(newValue: boolean | string | number) => {
+                          jsonObject[key][innerkey] = newValue
                         }}
                       />
                     </div>
@@ -110,8 +108,8 @@
                         <div class="grow">
                           <AdjustableInput
                             inputtext={ininnerval}
-                            updatetext={(event) => {
-                              jsonObject[key][innerkey][ininnerkey] = event.target.value
+                            updatetext={(newValue: boolean | string | number) => {
+                              jsonObject[key][innerkey][ininnerkey] = newValue
                             }}
                           />
                         </div>

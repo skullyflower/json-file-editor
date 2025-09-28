@@ -4,15 +4,27 @@
 
 <div>
   {#if typeof inputtext === 'boolean'}
-    <input type="checkbox" checked={inputtext} onchange={updatetext} />
+    <input
+      type="checkbox"
+      checked={inputtext}
+      onchange={(event) => updatetext((event.currentTarget as HTMLInputElement).checked)}
+    />
   {:else if inputtext.length < 40 || typeof inputtext === 'number'}
     <input
       type={typeof inputtext === 'number' ? 'number' : 'string'}
       value={inputtext}
-      onchange={updatetext}
+      onchange={(event) =>
+        updatetext(
+          typeof inputtext === 'number'
+            ? Number((event.target as HTMLInputElement).value)
+            : (event.target as HTMLInputElement).value
+        )}
     />
   {:else}
-    <textarea onchange={updatetext} rows={Math.round(inputtext.length / 70)}>{inputtext}</textarea>
+    <textarea
+      onchange={(event) => updatetext((event.target as HTMLTextAreaElement).value)}
+      rows={Math.round(inputtext.length / 70)}>{inputtext}</textarea
+    >
   {/if}
 </div>
 

@@ -108,9 +108,15 @@
                         <div class="keyLabel">{ininnerkey}:</div>
                         <div class="grow">
                           <AdjustableInput
-                            inputtext={ininnerval}
+                            inputtext={editableValues.includes(typeof ininnerval)
+                              ? ininnerval
+                              : JSON.stringify(ininnerval)}
                             updatetext={(newValue: boolean | string | number) => {
-                              jsonObject[key][innerkey][ininnerkey] = newValue
+                              jsonObject[key][innerkey][ininnerkey] = editableValues.includes(
+                                typeof ininnerval
+                              )
+                                ? newValue
+                                : JSON.parse(newValue as string)
                             }}
                           />
                         </div>

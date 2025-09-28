@@ -4,7 +4,7 @@ An Electron application with Svelte and TypeScript
 
 ## I learned Svelte over the weekend and built this quick and dirty little json file editor.
 
-<img width="952" height="729" alt="image" src="https://github.com/user-attachments/assets/83424b2d-accf-4887-a1e2-1da1ae28ee9a" />
+<img width="952" height="729" alt="image" src="https://github.com/user-attachments/assets/986500b9-f551-4948-bf26-1805553fefca" />
 
 You select a json file or a directory where your json files are located.
 

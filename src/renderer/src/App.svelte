@@ -58,33 +58,33 @@
             </div>
           {:else}
             <div class="flexcol">
-              {#each Object.entries(value) as [innerkey, innervalue], i (`${key}-${innerkey}-${i}`)}
+              {#each Object.entries(value) as [key2, value2], i (`${key}-${key2}-${i}`)}
                 {#if i === 0}
                   <div class="flexrow">
                     <div class="keyLabel">{key}:</div>
-                    {#if !isNaN(Number(innerkey)) && Array.isArray(value)}
+                    {#if !isNaN(Number(key2)) && Array.isArray(value)}
                       <button onclick={() => (value[value.length] = '')}>Add One</button>
                     {/if}
                   </div>
                 {/if}
-                {#if editableValues.includes(typeof innervalue)}
+                {#if editableValues.includes(typeof value2)}
                   <div class="flexrow">
-                    <div class="keyLabel">{innerkey}:</div>
+                    <div class="keyLabel">{key2}:</div>
                     <div class="grow">
                       <AdjustableInput
-                        inputtext={innervalue}
+                        inputtext={value2}
                         updatetext={(newValue: boolean | string | number) => {
-                          jsonObject[key][innerkey] = newValue
+                          jsonObject[key][key2] = newValue
                         }}
                       />
                     </div>
-                    {#if !isNaN(Number(innerkey)) && Array.isArray(value)}
+                    {#if !isNaN(Number(key2)) && Array.isArray(value)}
                       <div>
                         <button
                           onclick={() =>
                             (jsonObject = {
                               ...jsonObject,
-                              [key]: value.filter((_item, i) => i !== Number(innerkey))
+                              [key]: value.filter((_item, i) => i !== Number(key2))
                             })}
                         >
                           X
@@ -93,48 +93,86 @@
                   </div>
                 {:else}
                   <div class="flexcol">
-                    {#each Object.entries(innervalue) as [ininnerkey, ininnerval], i (`${key}-${innerkey}-${ininnerval}-${i}`)}
+                    {#each Object.entries(value2) as [key3, value3], i (`${key}-${key2}-${key3}-${i}`)}
                       {#if i === 0}
                         <div class="flexrow">
-                          <div class="keyLabel">{innerkey}:</div>
-                          {#if !isNaN(Number(ininnerkey)) && Array.isArray(innervalue) && i === 0}
-                            <button onclick={() => (innervalue[innervalue.length] = '')}
-                              >Add One</button
-                            >
+                          <div class="keyLabel">{key2}:</div>
+                          {#if !isNaN(Number(key3)) && Array.isArray(value2) && i === 0}
+                            <button onclick={() => (value2[value2.length] = '')}>Add One</button>
                           {/if}
                         </div>
                       {/if}
-                      <div class="flexrow">
-                        <div class="keyLabel">{ininnerkey}:</div>
-                        <div class="grow">
-                          <AdjustableInput
-                            inputtext={editableValues.includes(typeof ininnerval)
-                              ? ininnerval
-                              : JSON.stringify(ininnerval)}
-                            updatetext={(newValue: boolean | string | number) => {
-                              jsonObject[key][innerkey][ininnerkey] = editableValues.includes(
-                                typeof ininnerval
-                              )
-                                ? newValue
-                                : JSON.parse(newValue as string)
-                            }}
-                          />
-                        </div>
-                        {#if !isNaN(Number(ininnerkey)) && Array.isArray(innervalue)}
-                          <div>
-                            <button
-                              onclick={() => {
-                                const filtered = innervalue.filter(
-                                  (_item, i) => i !== Number(ininnerkey)
-                                )
-                                jsonObject[key] = filtered
+                      {#if editableValues.includes(typeof value3)}
+                        <div class="flexrow">
+                          <div class="keyLabel">{key3}:</div>
+                          <div class="grow">
+                            <AdjustableInput
+                              inputtext={value3}
+                              updatetext={(newValue: boolean | string | number) => {
+                                jsonObject[key][key2][key3] = newValue
                               }}
-                            >
-                              X
-                            </button>
+                            />
                           </div>
-                        {/if}
-                      </div>
+                          {#if !isNaN(Number(key3)) && Array.isArray(value2)}
+                            <div>
+                              <button
+                                onclick={() => {
+                                  const filtered = value2.filter((_item, i) => i !== Number(key3))
+                                  jsonObject[key] = filtered
+                                }}
+                              >
+                                X
+                              </button>
+                            </div>
+                          {/if}
+                        </div>
+                      {:else}
+                        <div class="flexcol">
+                          {#each Object.entries(value3) as [key4, value4], i (`${key}-${key2}-${key3}-${key4}-${i}`)}
+                            {#if i === 0}
+                              <div class="flexrow">
+                                <div class="keyLabel">{key3}:</div>
+                                {#if !isNaN(Number(key4)) && Array.isArray(value3) && i === 0}
+                                  <button onclick={() => (value3[value3.length] = '')}
+                                    >Add One</button
+                                  >
+                                {/if}
+                              </div>
+                            {/if}
+                            <div class="flexrow">
+                              <div class="keyLabel">{key4}:</div>
+                              <div class="grow">
+                                <AdjustableInput
+                                  inputtext={editableValues.includes(typeof value4)
+                                    ? value4
+                                    : JSON.stringify(value4)}
+                                  updatetext={(newValue: boolean | string | number) => {
+                                    jsonObject[key][key2][key3][key4] = editableValues.includes(
+                                      typeof value4
+                                    )
+                                      ? newValue
+                                      : JSON.parse(newValue as string)
+                                  }}
+                                />
+                              </div>
+                              {#if !isNaN(Number(key4)) && Array.isArray(value3)}
+                                <div>
+                                  <button
+                                    onclick={() => {
+                                      const filtered = value3.filter(
+                                        (_item, i) => i !== Number(key4)
+                                      )
+                                      jsonObject[key][key2][key3] = filtered
+                                    }}
+                                  >
+                                    X
+                                  </button>
+                                </div>
+                              {/if}
+                            </div>
+                          {/each}
+                        </div>
+                      {/if}
                     {/each}
                   </div>
                 {/if}

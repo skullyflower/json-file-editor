@@ -23,7 +23,7 @@
   {:else}
     <textarea
       onchange={(event) => updatetext((event.target as HTMLTextAreaElement).value)}
-      rows={Math.round(inputtext.length / 70)}>{inputtext}</textarea
+      rows={Math.round(inputtext.length / 65)}>{inputtext}</textarea
     >
   {/if}
 </div>
@@ -34,6 +34,7 @@
   }
   input,
   textarea {
+    max-width: 100%;
     border-style: solid;
     font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
     font-size: medium;

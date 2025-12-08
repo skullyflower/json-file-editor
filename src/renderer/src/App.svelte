@@ -24,6 +24,7 @@
 <div class="heading-text">JSON File Editor</div>
 <div class="actions">
   {#if selectedDir}
+    <!-- the list of files in the selected directory -->
     {#await pageListPromise then pageList}
       {#each pageList as page (page)}
         <button
@@ -38,13 +39,16 @@
     {/await}
   {/if}
 </div>
+<!-- the json object -->
 <details class="scrolling" open={jsonObject !== null}>
   <summary></summary>
   <div>
     {#if jsonObject !== null}
+      {console.log(JSON.stringify(jsonObject))}
       {#each Object.entries(jsonObject) as [key, value], i (`${key}-${i}`)}
         <div class="flexcol">
           {#if editableValues.includes(typeof value)}
+            <!-- key: value -->
             <div class="flexrow">
               <div class="keyLabel">{key}:</div>
               <div class="grow">
@@ -63,11 +67,13 @@
                   <div class="flexrow">
                     <div class="keyLabel">{key}:</div>
                     {#if !isNaN(Number(key2)) && Array.isArray(value)}
+                      <!-- add button if key2 is a number and value is an array -->
                       <button onclick={() => (value[value.length] = '')}>Add One</button>
                     {/if}
                   </div>
                 {/if}
                 {#if editableValues.includes(typeof value2)}
+                  <!-- key: key2: value2 -->
                   <div class="flexrow">
                     <div class="keyLabel">{key2}:</div>
                     <div class="grow">
@@ -79,6 +85,7 @@
                       />
                     </div>
                     {#if !isNaN(Number(key2)) && Array.isArray(value)}
+                      <!-- delete button if key2 is a number and value is an array -->
                       <div>
                         <button
                           onclick={() =>
@@ -98,11 +105,13 @@
                         <div class="flexrow">
                           <div class="keyLabel">{key2}:</div>
                           {#if !isNaN(Number(key3)) && Array.isArray(value2) && i === 0}
+                            <!-- add button if key3 is a number and value2 is an array -->
                             <button onclick={() => (value2[value2.length] = '')}>Add One</button>
                           {/if}
                         </div>
                       {/if}
                       {#if editableValues.includes(typeof value3)}
+                        <!-- key: key2: key3: value3 -->
                         <div class="flexrow">
                           <div class="keyLabel">{key3}:</div>
                           <div class="grow">
@@ -114,11 +123,12 @@
                             />
                           </div>
                           {#if !isNaN(Number(key3)) && Array.isArray(value2)}
+                            <!-- delete button if key3 is a number and value2 is an array -->
                             <div>
                               <button
                                 onclick={() => {
                                   const filtered = value2.filter((_item, i) => i !== Number(key3))
-                                  jsonObject[key] = filtered
+                                  jsonObject[key][key2] = filtered
                                 }}
                               >
                                 X
@@ -139,6 +149,7 @@
                                 {/if}
                               </div>
                             {/if}
+                            <!-- key: key2: key3: key4: value4 -->
                             <div class="flexrow">
                               <div class="keyLabel">{key4}:</div>
                               <div class="grow">
@@ -156,6 +167,7 @@
                                 />
                               </div>
                               {#if !isNaN(Number(key4)) && Array.isArray(value3)}
+                                <!-- delete button if key4 is a number and value3 is an array -->
                                 <div>
                                   <button
                                     onclick={() => {

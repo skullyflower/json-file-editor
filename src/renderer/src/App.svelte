@@ -22,7 +22,7 @@
 </script>
 
 <div class="heading-text">JSON File Editor</div>
-<div class="actions">
+<div class={jsonObject === null ? 'actions' : 'actions truncated'}>
   {#if selectedDir}
     <!-- the list of files in the selected directory -->
     {#await pageListPromise then pageList}
@@ -211,7 +211,7 @@
           selectedDir = selected
         }
       })
-    }}>Select JSON</button
+    }}>Select JSON Source</button
   >
   {#if jsonObject !== null}
     <button class="action" onclick={() => (jsonObject = filename = null)}>Close</button>
@@ -236,6 +236,9 @@
 </div>
 
 <style>
+  .truncated {
+    max-height: 55px;
+  }
   .scrolling {
     max-width: 100%;
     max-height: 72vh;

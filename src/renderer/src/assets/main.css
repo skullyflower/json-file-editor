@@ -5,8 +5,7 @@ body {
   align-items: center;
   justify-content: center;
   overflow: hidden;
-  background-image: url('./wavy-lines.svg');
-  background-size: cover;
+  background-image: url('./pattern-dark.svg');
   user-select: none;
 }
 
@@ -71,7 +70,7 @@ code {
   flex-wrap: wrap;
   justify-content: center;
   gap: 4px;
-  max-height: 55px;
+  max-height: 50%;
   overflow-y: auto;
 }
 

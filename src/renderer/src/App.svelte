@@ -273,6 +273,7 @@
     height: 1000px;
   }
   .flexcol {
+    background-color: var(--color-background-soft);
     margin-inline: 10px;
     padding: 15px;
     border: 1px solid;

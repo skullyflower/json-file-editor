@@ -94,6 +94,7 @@ button{
   line-height: 28px;
   padding:0 15px;
   margin:4px;
+  box-shadow: 3px 3px 3px var(--ev-c-black-mute);
 }
 button.action  {
   padding: 0 20px;

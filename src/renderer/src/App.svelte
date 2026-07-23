@@ -17,6 +17,24 @@
         alert(error)
       })
   }
+
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const createBlankLike = (sample: any): any => {
+    if (Array.isArray(sample)) return []
+    if (sample === null || sample === undefined) return ''
+    switch (typeof sample) {
+      case 'string':
+        return ''
+      case 'number':
+        return 0
+      case 'boolean':
+        return false
+      case 'object':
+        return Object.fromEntries(Object.entries(sample).map(([k, v]) => [k, createBlankLike(v)]))
+      default:
+        return ''
+    }
+  }
   let editableValues: string[] = ['string', 'number', 'boolean']
   let saveDisabled = $derived(JSON.stringify(jsonObject) === originalJson)
 </script>
@@ -62,16 +80,22 @@
             </div>
           {:else}
             <div class="flexcol">
-              {#each Object.entries(value) as [key2, value2], i (`${key}-${key2}-${i}`)}
-                {#if i === 0}
-                  <div class="flexrow">
-                    <div class="keyLabel">{key}:</div>
-                    {#if !isNaN(Number(key2)) && Array.isArray(value)}
-                      <!-- add button if key2 is a number and value is an array -->
-                      <button onclick={() => (value[value.length] = '')}>Add One</button>
-                    {/if}
-                  </div>
+              <div class="flexrow">
+                <div class="keyLabel">{key}:</div>
+                {#if Array.isArray(value)}
+                  <!-- add button if value is an array -->
+                  <button
+                    onclick={() => {
+                      const template = value.length ? value[0] : undefined
+                      jsonObject = {
+                        ...jsonObject,
+                        [key]: [...value, createBlankLike(template)]
+                      }
+                    }}>Add One</button
+                  >
                 {/if}
+              </div>
+              {#each Object.entries(value) as [key2, value2], i (`${key}-${key2}-${i}`)}
                 {#if editableValues.includes(typeof value2)}
                   <!-- key: key2: value2 -->
                   <div class="flexrow">
@@ -100,16 +124,36 @@
                   </div>
                 {:else}
                   <div class="flexcol">
-                    {#each Object.entries(value2) as [key3, value3], i (`${key}-${key2}-${key3}-${i}`)}
-                      {#if i === 0}
-                        <div class="flexrow">
-                          <div class="keyLabel">{key2}:</div>
-                          {#if !isNaN(Number(key3)) && Array.isArray(value2) && i === 0}
-                            <!-- add button if key3 is a number and value2 is an array -->
-                            <button onclick={() => (value2[value2.length] = '')}>Add One</button>
-                          {/if}
+                    <div class="flexrow">
+                      <div class="keyLabel">{key2}:</div>
+                      {#if Array.isArray(value2)}
+                        <!-- add button if value2 is an array -->
+                        <button
+                          onclick={() => {
+                            const template = value2.length ? value2[0] : undefined
+                            jsonObject[key] = {
+                              ...jsonObject[key],
+                              [key2]: [...value2, createBlankLike(template)]
+                            }
+                          }}>Add One</button
+                        >
+                      {/if}
+                      {#if !isNaN(Number(key2)) && Array.isArray(value)}
+                        <!-- delete button if key2 is a number and value is an array -->
+                        <div>
+                          <button
+                            onclick={() =>
+                              (jsonObject = {
+                                ...jsonObject,
+                                [key]: value.filter((_item, i) => i !== Number(key2))
+                              })}
+                          >
+                            X
+                          </button>
                         </div>
                       {/if}
+                    </div>
+                    {#each Object.entries(value2) as [key3, value3], i (`${key}-${key2}-${key3}-${i}`)}
                       {#if editableValues.includes(typeof value3)}
                         <!-- key: key2: key3: value3 -->
                         <div class="flexrow">
@@ -138,17 +182,34 @@
                         </div>
                       {:else}
                         <div class="flexcol">
-                          {#each Object.entries(value3) as [key4, value4], i (`${key}-${key2}-${key3}-${key4}-${i}`)}
-                            {#if i === 0}
-                              <div class="flexrow">
-                                <div class="keyLabel">{key3}:</div>
-                                {#if !isNaN(Number(key4)) && Array.isArray(value3) && i === 0}
-                                  <button onclick={() => (value3[value3.length] = '')}
-                                    >Add One</button
-                                  >
-                                {/if}
+                          <div class="flexrow">
+                            <div class="keyLabel">{key3}:</div>
+                            {#if Array.isArray(value3)}
+                              <button
+                                onclick={() => {
+                                  const template = value3.length ? value3[0] : undefined
+                                  jsonObject[key][key2][key3] = [
+                                    ...value3,
+                                    createBlankLike(template)
+                                  ]
+                                }}>Add One</button
+                              >
+                            {/if}
+                            {#if !isNaN(Number(key3)) && Array.isArray(value2)}
+                              <!-- delete button if key3 is a number and value2 is an array -->
+                              <div>
+                                <button
+                                  onclick={() => {
+                                    const filtered = value2.filter((_item, i) => i !== Number(key3))
+                                    jsonObject[key][key2] = filtered
+                                  }}
+                                >
+                                  X
+                                </button>
                               </div>
                             {/if}
+                          </div>
+                          {#each Object.entries(value3) as [key4, value4], i (`${key}-${key2}-${key3}-${key4}-${i}`)}
                             <!-- key: key2: key3: key4: value4 -->
                             <div class="flexrow">
                               <div class="keyLabel">{key4}:</div>

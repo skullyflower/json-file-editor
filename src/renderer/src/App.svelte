@@ -280,6 +280,9 @@
     display: flex;
     flex-direction: column;
     gap: 8px;
+    &:empty {
+      display: none;
+    }
   }
   .flexrow {
     display: flex;

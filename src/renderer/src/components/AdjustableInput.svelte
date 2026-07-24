@@ -34,14 +34,15 @@
   }
   input,
   textarea {
+    width: 100%;
     max-width: 100%;
+    min-height: fit-content;
     border-style: solid;
     font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
     font-size: medium;
     line-height: 1.5;
     padding: 3px 10px;
     border-radius: 10px;
-    width: 100%;
     border-color: var(--ev-c-gray-1);
     background-color: var(--ev-c-gray-3);
     color: var(--ev-c-white-mute);

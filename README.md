@@ -14,10 +14,6 @@ The form does spell checking. You can add and delete values for Arrays.
 
 Then you can click Save to save the changes back to the json file, click on a different file to edit, select a different directory and list of files, or Reset to start over.
 
-## It's a work in progress
-
-- [ ] Add any tests
-
 ### Install
 
 ```bash

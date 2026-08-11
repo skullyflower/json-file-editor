@@ -1,5 +1,6 @@
 <script lang="ts">
   import AdjustableInput from './components/AdjustableInput.svelte'
+  import { createBlankLike } from './lib/createBlankLike'
   let selectedDir = $state('')
   let pageListPromise = $derived(selectedDir ? window.api.getJsonList(selectedDir) : null)
   let filename = $state('')
@@ -18,23 +19,6 @@
       })
   }
 
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const createBlankLike = (sample: any): any => {
-    if (Array.isArray(sample)) return []
-    if (sample === null || sample === undefined) return ''
-    switch (typeof sample) {
-      case 'string':
-        return ''
-      case 'number':
-        return 0
-      case 'boolean':
-        return false
-      case 'object':
-        return Object.fromEntries(Object.entries(sample).map(([k, v]) => [k, createBlankLike(v)]))
-      default:
-        return ''
-    }
-  }
   let editableValues: string[] = ['string', 'number', 'boolean']
   let saveDisabled = $derived(JSON.stringify(jsonObject) === originalJson)
 </script>
